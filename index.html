@@ -274,10 +274,38 @@
         <div class="chat-bot-avatar">🤖</div>
         <div class="chat-bot-title">
           <strong>Alex 的 AI 小客服</strong>
-          <span>在線為您服務</span>
+          <span id="botStatusBadge">在線為您服務</span>
         </div>
       </div>
-      <button class="chat-close-btn" onclick="toggleChat()" title="縮小視窗">&times;</button>
+      <div class="chat-header-actions">
+        <button class="chat-icon-btn" onclick="toggleSettingsModal()" title="設定 Google Apps Script 網址" aria-label="設定">⚙️</button>
+        <button class="chat-icon-btn" onclick="toggleChat()" title="縮小視窗" aria-label="關閉">&times;</button>
+      </div>
+    </div>
+
+    <!-- Google Apps Script 網址設定面板 (可直接在網頁上修改) -->
+    <div class="chat-settings-panel" id="chatSettingsPanel">
+      <div class="settings-header">
+        <h4>⚙️ Google Apps Script 網址設定</h4>
+        <button class="chat-icon-btn" onclick="toggleSettingsModal()">&times;</button>
+      </div>
+      <div class="settings-body">
+        <label for="gasUrlInput"><strong>Web App 網頁應用程式網址：</strong></label>
+        <input 
+          type="url" 
+          id="gasUrlInput" 
+          class="settings-input" 
+          placeholder="https://script.google.com/macros/s/AKfycb.../exec"
+        >
+        <p class="settings-tip">
+          💡 請貼上您在 Google Apps Script「新增部署」取得的網址（結尾需為 <code>/exec</code>）。儲存後將保存在您的瀏覽器中，免重新修改代碼即可直接生效！
+        </p>
+        <div class="settings-status" id="settingsStatusMsg"></div>
+        <div class="settings-actions">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="testGasUrl()">🔍 測試連線</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="saveGasUrl()">💾 儲存網址</button>
+        </div>
+      </div>
     </div>
 
     <!-- 訊息對話區域 -->
