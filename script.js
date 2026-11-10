@@ -3,14 +3,15 @@
  * GitHub 個人網站 - 前端互動與 AI 客服連線邏輯
  * ==============================================================================
  * 
- * 【重要設定】：
- * 當您依照 README.md 或 google-apps-script/Code.gs 部署好 Google Apps Script 後，
- * 請將產生的「網頁應用程式網址 (Web App URL)」填入下方的 GAS_API_URL 中！
+ * 支援功能：
+ * 1. 網頁端即時設定：可點擊客服右上角的 ⚙️ 圖示，直接在網頁上輸入並儲存 Google Apps Script 網址！
+ * 2. 瀏覽器本機儲存 (localStorage)：設定後永久儲存，免重新修改程式碼或 git push。
+ * 3. OpenRouter 智慧推理歷程 (reasoning_details) 呈現。
+ * 4. 離線模擬示範模式。
  */
 
-// 請將部署後的 Google Apps Script 網址貼在此處：
-// 例如: "https://script.google.com/macros/s/AKfycbx.../exec"
-const GAS_API_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+// 預設代碼中的網址 (若使用者未在網頁上自訂，則以此為預設)：
+const DEFAULT_GAS_API_URL = "";
 
 // 對話紀錄陣列（遵照 OpenRouter 格式：支援保留 reasoning_details 多輪對話推理）
 let conversationHistory = [];
@@ -20,6 +21,130 @@ const chatWindow = document.getElementById("chatWindow");
 const chatMessages = document.getElementById("chatMessages");
 const chatInput = document.getElementById("chatInput");
 const chatSendBtn = document.getElementById("chatSendBtn");
+const chatSettingsPanel = document.getElementById("chatSettingsPanel");
+const gasUrlInput = document.getElementById("gasUrlInput");
+const settingsStatusMsg = document.getElementById("settingsStatusMsg");
+const botStatusBadge = document.getElementById("botStatusBadge");
+
+// 頁面載入時初始化設定
+document.addEventListener("DOMContentLoaded", () => {
+  initSettings();
+});
+
+/**
+ * 取得目前使用的 Google Apps Script 網址 (優先讀取 localStorage)
+ */
+function getActiveGasUrl() {
+  const customUrl = localStorage.getItem("CUSTOM_GAS_API_URL");
+  if (customUrl && customUrl.trim().length > 0) {
+    return customUrl.trim();
+  }
+  return DEFAULT_GAS_API_URL;
+}
+
+/**
+ * 初始化設定值與狀態徽章
+ */
+function initSettings() {
+  const activeUrl = getActiveGasUrl();
+  if (gasUrlInput) {
+    gasUrlInput.value = activeUrl;
+  }
+  updateStatusBadge(!!activeUrl);
+}
+
+/**
+ * 更新客服在線狀態文字
+ */
+function updateStatusBadge(isConfigured) {
+  if (!botStatusBadge) return;
+  if (isConfigured) {
+    botStatusBadge.textContent = "已連線至專屬 AI 後端";
+    botStatusBadge.style.color = "#10b981";
+  } else {
+    botStatusBadge.textContent = "在線為您服務 (示範模式)";
+    botStatusBadge.style.color = "#fbbf24";
+  }
+}
+
+/**
+ * 開啟 / 關閉設定面板
+ */
+function toggleSettingsModal() {
+  if (!chatSettingsPanel) return;
+  chatSettingsPanel.classList.toggle("active");
+  if (chatSettingsPanel.classList.contains("active") && gasUrlInput) {
+    gasUrlInput.value = getActiveGasUrl();
+    hideSettingsStatus();
+    gasUrlInput.focus();
+  }
+}
+
+/**
+ * 儲存使用者輸入的 GAS 網址至 localStorage
+ */
+function saveGasUrl() {
+  const url = gasUrlInput.value.trim();
+  
+  if (url && !url.startsWith("http")) {
+    showSettingsStatus("請輸入有效的完整網址 (必須以 http:// 或 https:// 開頭)", "error");
+    return;
+  }
+
+  if (url) {
+    localStorage.setItem("CUSTOM_GAS_API_URL", url);
+    showSettingsStatus("✅ 網址已成功儲存至瀏覽器！AI 客服已啟用即時連線。", "success");
+    updateStatusBadge(true);
+  } else {
+    localStorage.removeItem("CUSTOM_GAS_API_URL");
+    showSettingsStatus("⚠️ 已清除自訂網址，恢復為預設示範模式。", "loading");
+    updateStatusBadge(false);
+  }
+
+  setTimeout(() => {
+    chatSettingsPanel.classList.remove("active");
+  }, 1200);
+}
+
+/**
+ * 測試與 Google Apps Script 後端的連線
+ */
+async function testGasUrl() {
+  const url = gasUrlInput.value.trim();
+  if (!url) {
+    showSettingsStatus("請先輸入網頁應用程式網址再進行測試！", "error");
+    return;
+  }
+
+  showSettingsStatus("連線測試中，請稍候...", "loading");
+
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      mode: "cors"
+    });
+    const data = await res.json();
+    if (data && data.status === "online") {
+      showSettingsStatus("🎉 連線成功！Google Apps Script 後端運作正常。", "success");
+    } else {
+      showSettingsStatus(`連線回應成功，但內容為：${JSON.stringify(data)}`, "success");
+    }
+  } catch (err) {
+    showSettingsStatus(`❌ 連線測試失敗：${err.message}。請確認部署時存取權限是否選取「任何人 (Anyone)」。`, "error");
+  }
+}
+
+function showSettingsStatus(text, type) {
+  if (!settingsStatusMsg) return;
+  settingsStatusMsg.textContent = text;
+  settingsStatusMsg.className = `settings-status ${type}`;
+}
+
+function hideSettingsStatus() {
+  if (!settingsStatusMsg) return;
+  settingsStatusMsg.className = "settings-status";
+  settingsStatusMsg.textContent = "";
+}
 
 /**
  * 開啟 / 關閉對話視窗
@@ -81,11 +206,13 @@ async function handleChatSubmit(event) {
   const typingIndicator = appendTypingIndicator();
   scrollToBottom();
 
+  const targetApiUrl = getActiveGasUrl();
+
   try {
     // 檢查是否有設定 GAS 網址
-    if (!GAS_API_URL || GAS_API_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
-      // 模擬示範模式 (當尚未設定 GAS 時仍可提供互動體驗)
-      await new Promise(res => setTimeout(res, 900));
+    if (!targetApiUrl) {
+      // 模擬示範模式 (當尚未設定 GAS 時仍可提供即時預覽)
+      await new Promise(res => setTimeout(res, 800));
       removeTypingIndicator(typingIndicator);
       
       const mockReply = getMockResponse(userText);
@@ -100,7 +227,7 @@ async function handleChatSubmit(event) {
     }
 
     // 4. 呼叫 Google Apps Script 後端 (以 text/plain 避免跨域 OPTIONS 阻擋)
-    const response = await fetch(GAS_API_URL, {
+    const response = await fetch(targetApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "text/plain;charset=utf-8"
@@ -127,13 +254,13 @@ async function handleChatSubmit(event) {
       });
     } else {
       const errText = result.error || "未知的伺服器錯誤";
-      appendMessage("bot", `⚠️ 發生錯誤：${errText}`);
+      appendMessage("bot", `⚠️ 發生錯誤：${errText}\n\n💡 提示：若為權限問題，請確認 Google Apps Script「部署」中的存取權是否為「任何人 (Anyone)」。`);
     }
 
   } catch (err) {
     removeTypingIndicator(typingIndicator);
     console.error("Chat error:", err);
-    appendMessage("bot", `抱歉，目前連線出現問題 (${err.message})。請檢查 Google Apps Script 部署網址是否正確。`);
+    appendMessage("bot", `抱歉，連線至 Google Apps Script 發生錯誤 (${err.message})。<br><br><a href="javascript:void(0)" onclick="toggleSettingsModal()" style="color:#818cf8; text-decoration:underline;">點此檢查或重新設定 Google Apps Script 網址 ⚙️</a>`);
   } finally {
     chatInput.disabled = false;
     chatSendBtn.disabled = false;
@@ -203,10 +330,14 @@ function removeTypingIndicator(indicator) {
 }
 
 /**
- * 簡易文字格式化 (換行處理)
+ * 文字格式化 (換行與連結支援)
  */
 function formatText(text) {
   if (!text) return "";
+  // 避免重複跳脫 HTML 標籤
+  if (text.includes("<a href=") || text.includes("<br>")) {
+    return text;
+  }
   return text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -219,11 +350,11 @@ function scrollToBottom() {
 }
 
 /**
- * 離線預覽模擬回覆 (當使用者尚未完成 GAS 部署時展示用)
+ * 離線預覽模擬回覆 (當使用者尚未設定 GAS 時展示用)
  */
 function getMockResponse(question) {
   const q = question.toLowerCase();
-  let reasoning = "訪客詢問了個人檔案相關資訊。檢索預設知識庫並回覆相應細節。";
+  let reasoning = "檢測到尚未配置 Google Apps Script 網址，進入離線模擬應答。";
   let content = "";
 
   if (q.includes("技術") || q.includes("專長") || q.includes("stack")) {
@@ -235,7 +366,7 @@ function getMockResponse(question) {
   } else if (q.includes("聯絡") || q.includes("信箱") || q.includes("email") || q.includes("合作")) {
     content = "歡迎與 Alex 聯繫！您可以透過電子郵件：alex.chen.dev@example.com，或前往本站下方的聯絡表單發送信件喔！";
   } else {
-    content = `收到您的問題：「${question}」！\n\n我是 Alex 的數位助理，很高興為您服務。如果您想了解 Alex 的技術背景、專案經驗或聯絡方式，都可以隨時告訴我！\n\n💡 提示：在 \`script.js\` 中填入您的 Google Apps Script 網址，即可啟用由 OpenRouter Claude 大模型驅動的即時智慧回答！`;
+    content = `收到您的問題：「${question}」！\n\n我是 Alex 的數位助理。目前處於示範預覽模式。\n\n⚙️ **啟用真實 AI**：您可以直接點擊本視窗右上角的 ⚙️（齒輪圖示），貼上您的 Google Apps Script 網頁應用程式網址，就能立即串接 OpenRouter 進行即時對話！`;
   }
 
   return { content, reasoning };
