@@ -645,19 +645,153 @@ footer {
   background-color: #10b981;
 }
 
-.chat-close-btn {
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chat-icon-btn {
   background: transparent;
   border: none;
   color: var(--text-secondary);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 6px;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: var(--transition);
 }
 
-.chat-close-btn:hover {
+.chat-icon-btn:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================================
+   Google Apps Script 設定面板
+   ========================================================================== */
+.chat-settings-panel {
+  position: absolute;
+  top: 71px; /* header 下方 */
+  left: 0;
+  width: 100%;
+  background: rgba(19, 28, 49, 0.98);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px;
+  z-index: 20;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chat-settings-panel.active {
+  display: flex;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+}
+
+.settings-header h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.settings-body label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.settings-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 0.82rem;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.settings-input:focus {
+  border-color: var(--accent-primary);
+}
+
+.settings-tip {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.settings-tip code {
+  color: #a5f3fc;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.settings-status {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+  display: none;
+}
+
+.settings-status.success {
+  display: block;
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.settings-status.error {
+  display: block;
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.settings-status.loading {
+  display: block;
+  background: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border-radius: 8px;
 }
 
 /* 訊息區域 */
