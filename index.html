@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alex Chen | 資深全端工程師 & AI Solutions Architect</title>
+  <meta name="description" content="Alex Chen 的個人網站與作品集。整合現代全端開發、AI Agent 與系統架構設計，並內建 OpenRouter 驅動的專屬 AI 客服助理。">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- 背景漸層光暈 -->
+  <div class="bg-glow"></div>
+
+  <!-- 頂部導覽列 -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <span class="logo-badge">&lt;Alex.Dev /&gt;</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">關於我</a></li>
+        <li><a href="#skills">專長技術</a></li>
+        <li><a href="#projects">精選專案</a></li>
+        <li><a href="#experience">經歷</a></li>
+        <li><a href="#contact">聯絡方式</a></li>
+        <li><a href="javascript:void(0)" onclick="openChat()" class="nav-btn">與 AI 客服聊聊 💬</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero 主視覺區塊 -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="badge-tag">
+          <span class="badge-dot"></span>
+          <span>尋求創新合作 & 技術諮詢中</span>
+        </div>
+        <h1 class="hero-title">
+          嗨，我是 <span class="gradient-text">Alex Chen</span><br>
+          全端工程師 & AI 架構師
+        </h1>
+        <p class="hero-description">
+          專注於結合現代前端工程與大語言模型（LLM Agent），打造具備實用商業價值的高可用數位產品與微服務架構。
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">瀏覽作品集 🚀</a>
+          <button onclick="openChat()" class="btn btn-secondary">呼叫 AI 客服 🤖</button>
+        </div>
+      </div>
+      <div class="hero-avatar-box">
+        <div class="avatar-wrapper">
+          <!-- 向量 Stylized Avatar -->
+          <svg class="avatar-img" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="120" height="120" rx="60" fill="#1e293b"/>
+            <circle cx="60" cy="46" r="22" fill="#6366f1"/>
+            <path d="M26 102C26 84 41 74 60 74C79 74 94 84 94 102" fill="#06b6d4"/>
+            <circle cx="60" cy="44" r="18" fill="#e2e8f0"/>
+            <rect x="49" y="42" width="6" height="3" rx="1.5" fill="#1e293b"/>
+            <rect x="65" y="42" width="6" height="3" rx="1.5" fill="#1e293b"/>
+            <path d="M55 52C57 54 63 54 65 52" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="floating-card">
+          <div class="floating-card-icon">⚡</div>
+          <div class="floating-card-text">
+            <span>AI 數位代理</span>
+            <strong>24/7 在線為您解答</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 關於我 (About) -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>關於我的背景</h2>
+        <p>熱衷於解決複雜問題，將尖端 AI 模型轉化為日常穩定的軟體體驗</p>
+      </div>
+      <div style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8; font-size: 1.05rem;">
+        <p style="margin-bottom: 16px;">
+          我具備 5 年以上的全端系統研發經驗，曾參與微服務架構重構、高並發系統調優，以及近期深耕的生成式 AI Agent 工作流（Workflow Automation）。
+        </p>
+        <p>
+          從技術選型、後端 API 設計、前端響應式互動，到雲端 CI/CD 自動化部署，我追求極致的代碼品質與使用者體驗。右下角的「AI 專屬客服」便是以靜態 GitHub Pages 串接 Google Apps Script 與 OpenRouter 打造的即時互動展示！
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 專長技術 (Skills) -->
+  <section id="skills" class="section" style="background: rgba(0,0,0,0.15);">
+    <div class="container">
+      <div class="section-header">
+        <h2>核心技術棧</h2>
+        <p>涵蓋從前端介面、後端服務到雲端維運的全方位開發能力</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-category-card">
+          <div class="skill-icon">🎨</div>
+          <h3>前端開發</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">React / Next.js</span>
+            <span class="skill-tag">Vue.js</span>
+            <span class="skill-tag">Tailwind CSS</span>
+            <span class="skill-tag">HTML5 / Responsive</span>
+          </div>
+        </div>
+        <div class="skill-category-card">
+          <div class="skill-icon">⚙️</div>
+          <h3>後端架構</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Python (FastAPI)</span>
+            <span class="skill-tag">Node.js / Express</span>
+            <span class="skill-tag">Go</span>
+            <span class="skill-tag">PostgreSQL / Redis</span>
+            <span class="skill-tag">REST & GraphQL</span>
+          </div>
+        </div>
+        <div class="skill-category-card">
+          <div class="skill-icon">🧠</div>
+          <h3>AI & LLM 整合</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">OpenRouter API</span>
+            <span class="skill-tag">Claude / GPT / Gemini</span>
+            <span class="skill-tag">Prompt Engineering</span>
+            <span class="skill-tag">LangChain</span>
+            <span class="skill-tag">RAG 向量知識庫</span>
+          </div>
+        </div>
+        <div class="skill-category-card">
+          <div class="skill-icon">☁️</div>
+          <h3>雲端與 DevOps</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Kubernetes</span>
+            <span class="skill-tag">GitHub Actions</span>
+            <span class="skill-tag">Google Cloud (GCP)</span>
+            <span class="skill-tag">Serverless / GAS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 精選專案 (Projects) -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>代表作品與專案</h2>
+        <p>點選可深入了解架構亮點與開源展示</p>
+      </div>
+      <div class="projects-grid">
+        <!-- 專案 1 -->
+        <div class="project-card">
+          <div class="project-banner">🤖</div>
+          <div class="project-body">
+            <h3>OmniAgent 智慧企業問答系統</h3>
+            <p>採用 RAG 檢索增強生成架構，結合向量資料庫與 Claude 大模型，為內部文件提供精確且具來源引用的 AI 問答搜尋。</p>
+            <div class="project-tech">
+              <span>Python</span>
+              <span>FastAPI</span>
+              <span>OpenRouter</span>
+              <span>ChromaDB</span>
+            </div>
+            <a href="javascript:void(0)" onclick="askAboutProject('OmniAgent')" class="project-link">詢問 AI 客服此專案細節 &rarr;</a>
+          </div>
+        </div>
+        <!-- 專案 2 -->
+        <div class="project-card">
+          <div class="project-banner">🌐</div>
+          <div class="project-body">
+            <h3>CloudScale 高並發微服務網關</h3>
+            <p>具備動態流量限流、JWT 集中驗證與跨服務快取功能的輕量級 API Gateway，大幅降低微服務延遲並提升吞吐量。</p>
+            <div class="project-tech">
+              <span>Go</span>
+              <span>Redis</span>
+              <span>Docker</span>
+              <span>Kubernetes</span>
+            </div>
+            <a href="javascript:void(0)" onclick="askAboutProject('CloudScale')" class="project-link">詢問 AI 客服此專案細節 &rarr;</a>
+          </div>
+        </div>
+        <!-- 專案 3 -->
+        <div class="project-card">
+          <div class="project-banner">💬</div>
+          <div class="project-body">
+            <h3>無伺服器個人 AI 客服助理</h3>
+            <p>本網站的實戰應用！以 GitHub Pages 靜態託管搭配 Google Apps Script 與 OpenRouter 推理鏈 API，零月租費打造高智慧客服。</p>
+            <div class="project-tech">
+              <span>JavaScript</span>
+              <span>Google Apps Script</span>
+              <span>OpenRouter</span>
+              <span>Reasoning API</span>
+            </div>
+            <a href="javascript:void(0)" onclick="openChat()" class="project-link">立即試用本助理 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 經歷時間軸 (Experience) -->
+  <section id="experience" class="section" style="background: rgba(0,0,0,0.15);">
+    <div class="container">
+      <div class="section-header">
+        <h2>職涯歷程</h2>
+        <p>持續精進的技術步伐與階段性里程碑</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2023 - 至今</div>
+          <div class="timeline-title">AI 解決方案架構師 · 雲端創新實驗室</div>
+          <div class="timeline-desc">主導生成式 AI 工具鏈導入，打造 Agentic 工作流程與微服務雲端平台，提升研發團隊 40% 交付效能。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2021 - 2023</div>
+          <div class="timeline-title">資深全端工程師 · 數位科技</div>
+          <div class="timeline-desc">負責核心產品前端 React / Next.js 重構與後端 RESTful API 最佳化，支援百萬級日活躍用戶穩定運行。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2019 - 2021</div>
+          <div class="timeline-title">軟體工程師 · 開源技術社群</div>
+          <div class="timeline-desc">參與開源社群工具鏈開發，涵蓋自動化部署腳本、資料庫遷移與各項前後端模組化套件維護。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 聯絡方式 (Contact) -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="contact-box">
+        <h3>有興趣交流或合作嗎？</h3>
+        <p>無論是技術諮詢、專案合作或職缺洽談，都非常歡迎隨時與我聯繫！</p>
+        <div class="contact-links">
+          <a href="mailto:alex.chen.dev@example.com" class="btn btn-primary">寄信給我 ✉️</a>
+          <button onclick="openChat()" class="btn btn-secondary">與 AI 小客服即時對話 🤖</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 頁尾 -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Alex Chen. Hosted on GitHub Pages · Powered by OpenRouter &amp; Google Apps Script.</p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       AI 客服懸浮視窗 (Chatbot Widget)
+       ======================================================================== -->
+  <!-- 懸浮切換圓鈕 -->
+  <button class="chat-fab" id="chatFab" onclick="toggleChat()" title="開啟 AI 客服小助理" aria-label="開啟客服">
+    💬
+    <span class="fab-badge"></span>
+  </button>
+
+  <!-- 對話視窗 -->
+  <div class="chat-window" id="chatWindow">
+    <!-- 頂部資訊列 -->
+    <div class="chat-header">
+      <div class="chat-bot-info">
+        <div class="chat-bot-avatar">🤖</div>
+        <div class="chat-bot-title">
+          <strong>Alex 的 AI 小客服</strong>
+          <span>在線為您服務</span>
+        </div>
+      </div>
+      <button class="chat-close-btn" onclick="toggleChat()" title="縮小視窗">&times;</button>
+    </div>
+
+    <!-- 訊息對話區域 -->
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg msg-bot">
+        <div class="msg-bubble">
+          嗨！我是 Alex 的 AI 客服小助手 👋<br>
+          您可以問我任何關於 Alex 的技術專長、專案成果、經歷背景或聯絡方式喔！
+        </div>
+      </div>
+    </div>
+
+    <!-- 快速選題區 (Chips) -->
+    <div class="chat-quick-questions">
+      <button class="quick-chip" onclick="sendQuickQuestion('介紹一下你的主要技術棧？')">🛠️ 技術專長</button>
+      <button class="quick-chip" onclick="sendQuickQuestion('有哪些精選代表作品？')">🚀 精選專案</button>
+      <button class="quick-chip" onclick="sendQuickQuestion('你的工作經歷是什麼？')">💼 工作經歷</button>
+      <button class="quick-chip" onclick="sendQuickQuestion('如何聯絡到 Alex 本人？')">📬 聯絡方式</button>
+    </div>
+
+    <!-- 底部輸入區域 -->
+    <form class="chat-input-area" id="chatForm" onsubmit="handleChatSubmit(event)">
+      <input 
+        type="text" 
+        class="chat-input" 
+        id="chatInput" 
+        placeholder="輸入問題，例如：做過哪些 AI 專案？" 
+        autocomplete="off"
+        required
+      >
+      <button type="submit" class="chat-send-btn" id="chatSendBtn" title="送出訊息">
+        ➔
+      </button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
