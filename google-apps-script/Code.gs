@@ -175,3 +175,41 @@ function jsonResponse(data, statusCode) {
   output.setMimeType(ContentService.MimeType.JSON);
   return output;
 }
+
+/**
+ * ==============================================================================
+ * 【金鑰設定程式碼 - 執行一次即可】
+ * ==============================================================================
+ * 若您覺得去專案設定點介面很麻煩，可以直接用這段程式碼設定金鑰：
+ * 
+ * 使用方式：
+ * 1. 將下方的 YOUR_OPENROUTER_API_KEY 改成您的 OpenRouter 金鑰 (sk-or-v1-...)
+ * 2. 在 Apps Script 編輯器上方工具列的函式下拉選單，選取「setApiKey」
+ * 3. 點擊「執行 (Run)」按鈕
+ * 4. 看到「✅ 金鑰已成功存入指令碼屬性！」即可！
+ */
+function setApiKey() {
+  const myKey = "YOUR_OPENROUTER_API_KEY"; // 👈 請在此貼上您的金鑰 (如 sk-or-v1-...)
+  
+  if (!myKey || myKey === "YOUR_OPENROUTER_API_KEY") {
+    Logger.log("❌ 請先將 myKey 替換為您的實際 OpenRouter API Key 再執行！");
+    return;
+  }
+  
+  PropertiesService.getScriptProperties().setProperty("OPENROUTER_API_KEY", myKey.trim());
+  Logger.log("✅ 金鑰已成功存入指令碼屬性 (OPENROUTER_API_KEY)！");
+}
+
+/**
+ * 測試金鑰是否已成功設定
+ */
+function checkApiKey() {
+  const key = PropertiesService.getScriptProperties().getProperty("OPENROUTER_API_KEY");
+  if (key && key.length > 8) {
+    const masked = key.substring(0, 8) + "..." + key.substring(key.length - 4);
+    Logger.log("✅ 目前指令碼屬性中的金鑰已設定：" + masked);
+  } else {
+    Logger.log("⚠️ 尚未偵測到 OPENROUTER_API_KEY，請先執行 setApiKey()");
+  }
+}
+
